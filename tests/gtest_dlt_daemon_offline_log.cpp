@@ -1722,6 +1722,7 @@ int connectServer(void)
 
 int main(int argc, char **argv)
 {
+#ifdef DLT_USE_UNIX_SOCKET_IPC
     pid_t cpid;
     cpid = fork();
 
@@ -1787,12 +1788,15 @@ int main(int argc, char **argv)
         close(sockfd);
     }
     else {
-
+#endif
+	printf("Running all tests\n");
         ::testing::InitGoogleTest(&argc, argv);
         ::testing::FLAGS_gtest_break_on_failure = false;
 /*        ::testing::FLAGS_gtest_filter = "t_dlt_event_handler_register_connection*"; */
         return RUN_ALL_TESTS();
+#ifdef DLT_USE_UNIX_SOCKET_IPC
     }
+#endif
 
     return 0;
 }
